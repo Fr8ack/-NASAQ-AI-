@@ -1,0 +1,86 @@
+{
+  "entities": {
+    "Research": {
+      "title": "Research",
+      "description": "User's Quranic research study and findings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "owner_id": { "type": "string", "description": "UID of the researcher" },
+        "title": { "type": "string" },
+        "question": { "type": "string" },
+        "summary": { "type": "string" },
+        "findings": { "type": "string" },
+        "evidence_references": { "type": "string", "description": "JSON serialized or comma-separated verse keys" },
+        "methodology_version": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["owner_id", "title", "question"]
+    },
+    "Hypothesis": {
+      "title": "Hypothesis",
+      "description": "Hypothesis lab entry tested against the Quran",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "owner_id": { "type": "string" },
+        "statement": { "type": "string" },
+        "central_terms": { "type": "string" },
+        "supporting_evidence": { "type": "string" },
+        "opposing_evidence": { "type": "string" },
+        "refutation_analysis": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "tested", "supported", "countered", "inconclusive"] },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["owner_id", "statement"]
+    },
+    "Bookmark": {
+      "title": "Bookmark",
+      "description": "User bookmarked verses and personal reflection notes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "owner_id": { "type": "string" },
+        "verse_key": { "type": "string" },
+        "surah_name": { "type": "string" },
+        "ayah_number": { "type": "number" },
+        "note": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["owner_id", "verse_key"]
+    },
+    "UserSettings": {
+      "title": "UserSettings",
+      "description": "User preferences and workspace configuration",
+      "type": "object",
+      "properties": {
+        "owner_id": { "type": "string" },
+        "theme": { "type": "string", "enum": ["dark", "light"] },
+        "preferred_model": { "type": "string" },
+        "research_mode": { "type": "string", "enum": ["quran_by_quran", "comparative"] },
+        "font_size": { "type": "number" }
+      },
+      "required": ["owner_id"]
+    }
+  },
+  "firestore": {
+    "/researches/{researchId}": {
+      "schema": "Research",
+      "description": "Collection of user-created research documents"
+    },
+    "/hypotheses/{hypothesisId}": {
+      "schema": "Hypothesis",
+      "description": "Collection of user-tested hypotheses"
+    },
+    "/bookmarks/{bookmarkId}": {
+      "schema": "Bookmark",
+      "description": "User personal verse bookmarks and notes"
+    },
+    "/users/{userId}/settings/{settingId}": {
+      "schema": "UserSettings",
+      "description": "User specific application settings"
+    }
+  }
+}
